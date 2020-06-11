@@ -1,0 +1,74 @@
+header {
+  height: 80px;
+  background-image: linear-gradient(
+    120deg,
+    hsl(160, 18%, 97%),
+    hsl(163, 25%, 69%),
+    hsl(165, 50%, 61%),
+    rgb(53, 173, 147)
+  );
+}
+header > div {
+  grid-template-columns: 30% 50% 20%;
+  display: inline-block;
+  padding-top: 10px;
+}
+@media (min-width: 992px) {
+  header > div {
+    grid-template-columns: 20% 50% 30%;
+    display: inline-block;
+  }
+  .main > section {
+    grid-template-columns: 24.4% 24.4% 24.4% 24.4%;
+    grid-gap: 15px;
+  }
+  section > img {
+    max-width: 250px;
+    max-width: 250px;
+  }
+}
+@media (max-width: 991px) and (min-width: 700px) {
+  header > div {
+    grid-template-columns: 20% 40% 40%;
+
+    display: inline-block;
+  }
+  .main > section {
+    grid-template-columns: 49.4% 49.4%;
+    grid-gap: 30px;
+  }
+}
+@media (max-width: 699px) {
+  header > div {
+    grid-template-columns: 10% 40% 40%;
+    display: inline-block;
+  }
+  .main > section {
+    grid-template-columns: 100%;
+    grid-row-gap: 30px;
+  }
+}
+
+header .MuiTouchRipple-root {
+  border-radius: 50%;
+  border: 1px rgb(2, 24, 49) solid;
+  margin: 5px;
+}
+
+.main > section {
+  display: grid;
+
+  justify-content: space-evenly;
+  padding: 50px 50px 50px;
+}
+section > div {
+  border: 2px hsl(163, 25%, 69%) solid;
+  height: 500px;
+  padding: 25px;
+}
+section > div:hover {
+  box-shadow: 2px 3px 5px rgba(0, 0, 0, 0.5);
+}
+section button {
+  width: 200px;
+}
