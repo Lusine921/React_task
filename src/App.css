@@ -43,7 +43,6 @@ header > div {
 @media (max-width: 991px) and (min-width: 700px) {
   header > div {
     grid-template-columns: 20% 40% 40%;
-
     display: inline-block;
   }
   .main section {
@@ -94,4 +93,7 @@ section .MuiButtonBase-root {
   display: flex;
   justify-content: flex-end;
   margin: 7px;
+}
+button:focus {
+  outline: none;
 }
