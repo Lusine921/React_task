@@ -1,0 +1,46 @@
+.cart > div {
+  margin: 30px;
+  display: grid;
+}
+
+@media (min-width: 992px) {
+  .cartProduct {
+    grid-template-columns: 24.4% 24.4% 24.4% 24.4%;
+    grid-gap: 15px;
+  }
+  .cart > img {
+    max-width: 250px;
+    max-width: 250px;
+  }
+}
+@media (max-width: 1288px) and (min-width: 996px) {
+  .cartProduct {
+    grid-template-columns: 49.4% 49.4%;
+    grid-gap: 30px;
+  }
+}
+@media (max-width: 991px) and (min-width: 700px) {
+  .cartProduct {
+    grid-template-columns: 49.4% 49.4%;
+    grid-gap: 30px;
+  }
+}
+@media (max-width: 699px) {
+  .cartProduct {
+    grid-template-columns: 100%;
+    grid-row-gap: 30px;
+  }
+}
+.cartProduct > div {
+  border: 2px hsl(163, 25%, 69%) solid;
+  height: 450px;
+  padding: 25px;
+  border-radius: 5px;
+  text-align: center;
+}
+.cartProduct h1 {
+  text-align: center;
+}
+.second button {
+  width: 150px;
+}

@@ -20,33 +20,39 @@ data.array.map((elem, index) => {
     minValue: 1,
     showInfo: false,
   });
-  return values;
 });
+
 export default function App(props) {
   const [state, setState] = useState({
-    info: "there is not the product",
-    cartNumber: 0,
+    info: "ther is not product",
+    cartNumber: null,
     products: values,
+    right: false,
+    left: false,
     totalPrice: 0,
+    menuList: [
+      "productTYpe1",
+      "productTYpe2",
+      "productTYpe3",
+      "productTYpe4",
+      "productTYpe5",
+      "productTYpe6",
+    ],
   });
+
   const [cart, setCart] = useState([]);
   var newproducts = [...state.products];
   var newCart = cart;
-  var sum;
-  useEffect(() => {
-    const data1 = localStorage.getItem("state");
-    if (data) {
-      setState(JSON.parse(data1));
-    }
-    const data2 = localStorage.getItem("cart");
-    if (data) {
-      setCart(JSON.parse(data2));
-    }
-  }, []);
-  useEffect(() => {
-    localStorage.setItem("state", JSON.stringify(state));
-    localStorage.setItem("cart", JSON.stringify(cart));
-  });
+  var sum = 0;
+  console.log(newCart);
+
+  const toggleSlider1 = (slider1, open) => () => {
+    setState({ ...state, [slider1]: open });
+  };
+  const toggleSlider2 = (slider2, open) => () => {
+    setState({ ...state, [slider2]: open });
+  };
+
   const onSubmit = (e) => {
     e.preventDefault();
   };
@@ -55,21 +61,23 @@ export default function App(props) {
       if (id - 1 === i) {
         elem.value = e.target.value;
       }
-      return newproducts;
     });
   };
+
   const onClickButton = (id) => {
     newproducts.map((elem, i) => {
       if (!elem.buttonIsClick) {
         if (id - 1 === i) {
           if (elem.count > 0) {
             elem.buttonIsClick = true;
+
             cart.push(elem);
-            sum = 0;
+
             cart.map((elem) => {
-              sum = sum + Number(elem.price.slice(0, -1));
-              return sum;
+              let sum1 = elem.price.slice(0, -1);
+              sum = sum + Number(sum1) * elem.value;
             });
+
             setState((prevState) => ({
               ...prevState,
               cartNumber: state.cartNumber + 1,
@@ -80,42 +88,32 @@ export default function App(props) {
           }
         }
       }
-      return newproducts;
     });
-
     setState((prevState) => ({
       ...prevState,
       products: newproducts,
     }));
   };
   const decrement = (index) => {
-    sum = 0;
     newproducts.map((elem, i) => {
       if (index - 1 === i) {
         if (elem.value === 1) {
-          var newCart1 = newCart.filter((elem) => elem.id !== index);
+          var newCart1 = newCart.filter((item) => item.id !== index);
+          setCart(newCart1);
+
           elem.buttonIsClick = false;
-          newCart1.map((elem) => {
-            let sum1 = elem.price.slice(0, -1);
-            sum = sum + Number(sum1) * elem.value;
-            return sum;
-          });
           setState((prevState) => ({
             ...prevState,
             cartNumber: state.cartNumber - 1,
-            totalPrice: sum,
           }));
-          setCart(newCart1);
         } else {
           elem.value = elem.value - 1;
-          newCart.map((elem) => {
-            let sum1 = elem.price.slice(0, -1);
-            sum = sum + Number(sum1) * elem.value;
-            return sum;
-          });
         }
       }
-      return newproducts;
+    });
+    cart.map((elem) => {
+      let sum1 = elem.price.slice(0, -1);
+      sum = sum + Number(sum1) * elem.value;
     });
     setState((prevState) => ({
       ...prevState,
@@ -123,25 +121,18 @@ export default function App(props) {
       totalPrice: sum,
     }));
   };
+
   const increment = (index) => {
     newproducts.map((elem, i) => {
       if (index - 1 === i) {
-        if (elem.value !== elem.count) {
+        if (elem.value != elem.count) {
           elem.value = elem.value + 1;
         }
       }
-      sum = 0;
-      cart.map((elem) => {
-        let sum1 = elem.price.slice(0, -1);
-        sum = sum + Number(sum1) * elem.value;
-        return sum;
-      });
-      setState((prevState) => ({
-        ...prevState,
-        products: newproducts,
-        totalPrice: sum,
-      }));
-      return newproducts;
+    });
+    cart.map((elem) => {
+      let sum1 = elem.price.slice(0, -1);
+      sum = sum + Number(sum1) * elem.value;
     });
     setState((prevState) => ({
       ...prevState,
@@ -150,32 +141,26 @@ export default function App(props) {
     }));
   };
   const handleDelete = (itemId) => {
-    sum = 0;
     var newCart1 = newCart.filter((item) => item.id !== itemId);
     newproducts.map((elem, i) => {
       if (itemId - 1 === i) {
-        elem.value = 1;
         elem.buttonIsClick = false;
       }
-      return newproducts;
     });
     setCart(newCart1);
-    newCart1.map((elem) => {
+    cart.map((elem) => {
       let sum1 = elem.price.slice(0, -1);
-      sum = sum + Number(sum1) * elem.value;
-      return sum;
+      sum = sum + Number(sum1);
     });
     setState((prevState) => ({
       ...prevState,
-      totalPrice: sum,
       products: newproducts,
+      totalPrice: sum,
       cartNumber: state.cartNumber - 1,
     }));
+    console.log(cart);
   };
-  const onClickPay = () => {
-    let payMsg = document.getElementById("pay");
-    payMsg.textContent = `yoe must pay ${state.totalPrice}$`;
-  };
+
   return (
     <Router>
       <div className="main">
@@ -188,6 +173,8 @@ export default function App(props) {
             <Products
               {...props}
               wrapper={state.wrapper}
+              toggleSlider1={toggleSlider1}
+              toggleSlider2={toggleSlider2}
               onClickButton={onClickButton}
               increment={increment}
               decrement={decrement}
@@ -215,7 +202,6 @@ export default function App(props) {
               decrement={decrement}
               handleDelete={handleDelete}
               totalPrice={state.totalPrice}
-              onClickPay={onClickPay}
             />
           )}
         />

@@ -1,30 +1,53 @@
 import React from "react";
 import ProductForm from "../Product/ProductForm";
+import { Cancel } from "@material-ui/icons";
+import S from "./Cart.module.css";
+import Button from "@material-ui/core/Button";
 
 export default function Cart(props) {
   return (
-    <div>
-      <div>
-        <img
-          src={`${props.img}`}
-          alt={props.titel}
-          style={{ maxWidth: "250px", borderRadius: "5px" }}
-        />
-        <p>{props.description}</p>
-        <h4>{props.price}</h4>
+    <div className={S.cart}>
+      <div className={S.cartProduct}>
+        {props.cart.length !== 0 ? (
+          props.cart.map((elem, i) => {
+            return (
+              <div key={elem.id}>
+                <div
+                  className="delet"
+                  onClick={() => props.handleDelete(elem.id)}
+                >
+                  <Cancel />
+                </div>
+                <img src={elem.img} alt={elem.titel} />
+                <h4>{elem.price}</h4>
+
+                <ProductForm
+                  value={elem.value}
+                  onSubmit={props.onSubmit}
+                  increment={props.increment}
+                  decrement={props.decrement}
+                  handleChange={props.handleChange}
+                  id={elem.id}
+                  key={elem.i}
+                />
+              </div>
+            );
+          })
+        ) : (
+          <h1>Cart is empty</h1>
+        )}
       </div>
-      <ProductForm
-        id={props.id}
-        value={props.value}
-        onSubmit={props.onsubmit}
-        increment={props.increment}
-        decrement={props.decrement}
-      />
-      <h3>
-        <b>total price </b> {props.totalPrice}
-      </h3>
-      <button>To pay</button>
-      <div>delet</div>
+      <div className={S.second}>
+        <h3> total price: {props.totalPrice}</h3>
+        <Button
+          onClick={() => props.onClickPay()}
+          variant="contained"
+          color="secondary"
+        >
+          Pay
+        </Button>
+        <p id="pay"></p>
+      </div>
     </div>
   );
 }

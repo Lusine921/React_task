@@ -1,5 +1,8 @@
 import React, { Component } from "react";
 import { NavLink } from "react-router-dom";
+import { Badge } from "@material-ui/core";
+
+import { ShoppingCart } from "@material-ui/icons";
 import style from "./Navbar.module.css";
 class Nav extends Component {
   render() {
@@ -13,12 +16,14 @@ class Nav extends Component {
             </NavLink>
           </li>
           <li>
-            <NavLink exact to="/about" activeClassName={style.curent}>
-              About
-            </NavLink>
-          </li>
-          <li>
             <NavLink exact to="/cart" activeClassName={style.curent}>
+              <Badge
+                color="secondary"
+                // badgeContent={props.cartNumber}
+                showZero
+              >
+                <ShoppingCart />
+              </Badge>
               Cart
             </NavLink>
           </li>

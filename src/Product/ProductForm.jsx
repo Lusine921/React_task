@@ -6,7 +6,10 @@ export default function ProductForm(props) {
     <div className={S.ProductForm}>
       <form onSubmit={props.onSubmit}>
         <button onClick={() => props.decrement(props.id)}>-</button>
-        <input value={props.value} />
+        <input
+          onChange={() => props.handleChange(props.key)}
+          value={props.value}
+        />
         <button onClick={() => props.increment(props.id)}>+</button>
       </form>
     </div>
